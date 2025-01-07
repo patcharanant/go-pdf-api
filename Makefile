@@ -1,9 +1,3 @@
-# Database
-MYSQL_USER ?= user
-MYSQL_PASSWORD ?= password
-MYSQL_ADDRESS ?= 127.0.0.1:3306
-MYSQL_DATABASE ?= article
-
 # Exporting bin folder to the path for makefile
 export PATH   := $(PWD)/bin:$(PATH)
 # Default Shell
@@ -19,6 +13,8 @@ include ./misc/make/tools.Makefile
 include ./misc/make/help.Makefile
 
 # ~~~ Development Environment ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+start: go run ./app/main.go
 
 up: dev-env dev-air             ## Startup / Spinup Docker Compose and air
 down: docker-stop               ## Stop Docker
@@ -145,3 +141,6 @@ clean-artifacts: ## Removes Artifacts (*.out)
 
 clean-docker: ## Removes dangling docker images
 	@ docker image prune -f
+
+gen.mock: 
+	@go:generate mockery --name PDFService
